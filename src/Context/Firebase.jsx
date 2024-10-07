@@ -1,8 +1,8 @@
 import { initializeApp } from "firebase/app";
 import React, { useContext, createContext, useState, useEffect } from "react";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-
-
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updateProfile, signOut } from "firebase/auth";
+import { getFirestore, collection, addDoc, getDocs, doc, getDoc, query, where } from "firebase/firestore";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAF6kO_1c0Wcs2Tv4vSHbRKUKZerVDFXZw",
@@ -19,11 +19,14 @@ const app = initializeApp(firebaseConfig);
 // Auth
 const fireBaseAuth = getAuth(app)
 
+// firestore instance
+const fireStore = getFirestore(app)
+
+// storage instance
+const storage = getStorage(app)
 
 const Datacontext = createContext(null)
 export const useFirebase = () => useContext(Datacontext)
-
-
 
 export const Dataprovider = (props) => {
 
@@ -32,13 +35,22 @@ export const Dataprovider = (props) => {
 
 
     // Create user
-    const createUser = (email, password) => {
-        createUserWithEmailAndPassword(fireBaseAuth, email, password).then(alert("user Created")).catch((error) => console.log(error))
+    const createUser = async (email, password, displayName) => {
+       
+            const userCredential = await createUserWithEmailAndPassword(fireBaseAuth, email, password);
+            const user = userCredential.user
+
+            await updateProfile(user, { displayName });
+           
+            console.log(user)
+        
     }
+
     // Login user
     const loginUser = (email, password) => {
-        signInWithEmailAndPassword(fireBaseAuth, email, password).then(alert("user logged in")).catch((error) => console.log(error))
+        signInWithEmailAndPassword(fireBaseAuth, email, password).then(() => alert('user logged in')).catch((error) => console.log(error))
     }
+
     useEffect(() => {
         onAuthStateChanged(fireBaseAuth, (user) => {
             if (user) {
@@ -53,16 +65,77 @@ export const Dataprovider = (props) => {
     }, [myUser])
 
     const isLoggedIn = myUser ? true : false
+    console.log(myUser)
+
+
+    console.log(myUser)
+
+    // signout user
+
+    const signOutUser = () => {
+        signOut(fireBaseAuth).then((value) => console.log('user is out'))
+    }
+
     // making collection
 
-    
 
+    const createBlog = async (title, author, content, coverPic, firstUrl, secUrl, createdDate) => {
+        const imageRef = ref(storage, `uploads/images/${Date.now()}-${coverPic}`)
+        const uploadRes = await uploadBytes(imageRef, coverPic)
+        return await addDoc(collection(fireStore, "Blog"), {
+            title,
+            author,
+            content,
+            image: uploadRes.ref.fullPath,
+            firstUrl,
+            secUrl,
+            createdDate,
+            userId: myUser.uid,
+            userEmail: myUser.email,
+            userName: myUser.displayName,
+        })
 
+    }
 
+    const getBlog = () => {
+        return getDocs(collection(fireStore, 'Blog'))
+    }
+
+    const imageUrl = (path) => {
+        return getDownloadURL(ref(storage, path))
+    }
+
+    const getBlogById = async (id) => {
+        const docRef = doc(fireStore, 'Blog', id)
+        const res = await getDoc(docRef)
+        return res
+    }
+
+    // console.log(myUser)
+    const fetchMyBlogs = async (userId) => {
+        const collectionRef = collection(fireStore, "Blog")
+
+        const q = query(collectionRef, where('userId', '==', userId))
+
+        const res = await getDocs(q)
+        return res
+    }
 
 
     return (
-        <Datacontext.Provider value={{ createUser, loginUser, myUser, isLoggedIn }}>
+        <Datacontext.Provider value={{
+            createUser,
+            loginUser,
+            myUser,
+            isLoggedIn,
+            createBlog,
+            getBlog,
+            // updateUser,
+            imageUrl,
+            signOutUser,
+            getBlogById,
+            fetchMyBlogs
+        }}>
             {props.children}
         </Datacontext.Provider>
     )

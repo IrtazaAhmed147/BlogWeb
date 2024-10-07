@@ -24,7 +24,7 @@
 
 .showPassBtn{
     position: absolute;
-    top: 35%;
+    top: 47%;
     right: 18px;
     background-color: transparent;
     border: none;
@@ -32,7 +32,7 @@
 .user{
     position: absolute;
     right: 18px;
-    top: 22%;
+    top: 21%;
 }
 
 
@@ -67,3 +67,32 @@
     color: white;
     text-align: center;
 }
+.CardMain{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    min-height: 400px;
+    justify-content: center;
+}
+
+.content h1{
+    font-size: 70px;
+}
+
+@media screen and (max-width: 500px) {
+    .poster{
+        height: 300px;
+    }
+    .posterBox{
+        height: 300px;
+    }
+    .color{
+        height: 300px;
+    }
+    .content h1{
+        font-size: 3rem;
+    }
+    .content p{
+        font-size: 10px;
+    }
+  }

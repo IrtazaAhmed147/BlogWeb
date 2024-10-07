@@ -1,11 +1,109 @@
-.form{
+.form {
     width: 90%;
-    margin: auto;
+    margin: 30px auto;
 }
-.input{
+
+.input {
     width: 300px;
 }
-.textArea{
+
+.textArea {
     display: block;
-    
+    width: 95%;
+
+}
+
+.cardBox {
+    width: 300px;
+    overflow: hidden;
+    /* border: 2px solid black; */
+    /* height: 300px; */
+}
+.profile{
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.viewBtn {
+    border: none;
+    border-radius: 5px;
+    background-color: #002480;
+    color: white;
+    padding: 4px 25px;
+
+}
+
+
+/* Loader */
+
+/* From Uiverse.io by barisdogansutcu */
+svg {
+    width: 3.25em;
+    transform-origin: center;
+    animation: rotate4 2s linear infinite;
+}
+
+circle {
+    fill: none;
+    stroke: hsl(214, 97%, 59%);
+    stroke-width: 2;
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    animation: dash4 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate4 {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash4 {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 90, 200;
+        stroke-dashoffset: -35px;
+    }
+
+    100% {
+        stroke-dashoffset: -125px;
+    }
+}
+
+
+/* detail */
+
+.detail{
+    margin: 20px auto;
+    width: 90%;
+}
+
+
+/* footer */
+
+footer{
+    /* background-color: blue; */
+    height: 50px;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(16,21,162,1) 35%, rgba(0,212,255,1) 100%);
+}
+
+/* profile */
+
+.profileCardBox{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    min-height: 400px;
+    justify-content: center;
 }

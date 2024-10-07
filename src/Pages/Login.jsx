@@ -15,11 +15,11 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    useEffect(()=> {
-        if(fireBase.isLoggedIn){
+    useEffect(() => {
+        if (fireBase.isLoggedIn) {
             navigate('/')
         }
-    },[fireBase, navigate])
+    }, [fireBase, navigate])
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -36,19 +36,15 @@ const Login = () => {
                 <h1 style={{ textAlign: "center" }}>Login</h1>
                 <Form style={{ width: "100%", marginTop: '30px' }} onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                        {/* <Form.Label style={{margin: "0px"}}>Email address</Form.Label> */}
                         <Form.Control style={{ fontSize: "14px" }} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Enter Email" />
 
                     </Form.Group>
-                    <span className='user'>
-                        <i className="fa-solid fa-user"></i>
-                    </span>
+                   
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
-                        {/* <Form.Label style={{margin: "0px"}}>Password</Form.Label> */}
                         <Form.Control style={{ fontSize: "14px" }} onChange={(e) => setPassword(e.target.value)} type={showPass ? 'text' : 'password'} placeholder="Password" />
                     </Form.Group>
-                    <span className='showPassBtn' onClick={HanldeshowPass}>
+                    <span style={{top: '34%'}} className='showPassBtn' onClick={HanldeshowPass}>
                         {showPass ? <i className="fa-solid fa-eye"></i> : <i className="fa-solid fa-eye-slash"></i>}
                     </span>
 
