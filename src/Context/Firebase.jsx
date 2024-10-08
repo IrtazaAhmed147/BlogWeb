@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import React, { useContext, createContext, useState, useEffect } from "react";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updateProfile, signOut } from "firebase/auth";
-import { getFirestore, collection, addDoc, getDocs, doc, getDoc, query, where, deleteDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, doc, getDoc, query, where, deleteDoc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 const firebaseConfig = {
@@ -48,28 +48,28 @@ export const Dataprovider = (props) => {
 
     // Login user
     const loginUser = async (email, password) => {
-      const res = await  signInWithEmailAndPassword(fireBaseAuth, email, password)
-      return res
+        const res = await signInWithEmailAndPassword(fireBaseAuth, email, password)
+        return res
     }
 
     useEffect(() => {
         onAuthStateChanged(fireBaseAuth, (user) => {
             if (user) {
                 setMyUser(user)
-                console.log('user is available')
+               
             } else {
                 setMyUser(null)
-                console.log('user is not available')
+              
             }
         })
 
     }, [myUser])
 
     const isLoggedIn = myUser ? true : false
-    console.log(myUser)
+    
 
 
-    console.log(myUser)
+    
 
     // signout user
 
@@ -91,6 +91,7 @@ export const Dataprovider = (props) => {
             firstUrl,
             secUrl,
             createdDate,
+            views: 0,
             userId: myUser.uid,
             userEmail: myUser.email,
             userName: myUser.displayName,
@@ -112,12 +113,9 @@ export const Dataprovider = (props) => {
         return res
     }
 
-    // console.log(myUser)
     const fetchMyBlogs = async (userId) => {
         const collectionRef = collection(fireStore, "Blog")
-
         const q = query(collectionRef, where('userId', '==', userId))
-
         const res = await getDocs(q)
         return res
     }
@@ -128,6 +126,30 @@ export const Dataprovider = (props) => {
         const delRef = doc(fireStore, "Blog", id)
         const res = await deleteDoc(delRef)
         return res
+    }
+
+
+    // update views
+
+    const updateViews = async (id, views) => {
+        
+        const docRef = doc(fireStore, 'Blog', id)
+        await updateDoc(docRef, {
+            views: Number(views)
+        })
+
+    }
+
+    // get views
+
+    const getViews = async (id)=> {
+        const docRef = doc(fireStore, 'Blog', id)
+        const result = await getDoc(docRef);
+        if (result.exists()) {
+            return result.data().views; // Return the views count
+        } else {
+            throw new Error("No such document!");
+        }
     }
 
 
@@ -145,6 +167,8 @@ export const Dataprovider = (props) => {
             getBlogById,
             fetchMyBlogs,
             deletePost,
+            updateViews,
+            getViews,
         }}>
             {props.children}
         </Datacontext.Provider>

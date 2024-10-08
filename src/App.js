@@ -15,6 +15,8 @@ import Footer from './Component/Footer';
 function App() {
   return (
     <div className='Main'>
+      <div>
+
       <NavBar />
       <main>
 
@@ -28,6 +30,7 @@ function App() {
         <Route path='/blog/view/:blogId' element={<Detail />} />
       </Routes>
       </main>
+      </div>
       <Footer/>
     </div>
   );

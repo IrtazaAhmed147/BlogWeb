@@ -24,7 +24,7 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        fireBase.loginUser(email, password).then(()=> setError(false)).catch(()=> setError(true))
+        fireBase.loginUser(email, password).then(() => setError(false)).catch(() => setError(true))
     }
 
     const HanldeshowPass = () => {
@@ -42,14 +42,14 @@ const Login = () => {
                     </Form.Group>
 
 
-                    <Form.Group className="mb-0" controlId="formBasicPassword">
-                        <Form.Control style={{ fontSize: "14px" }} onChange={(e) => setPassword(e.target.value)} type={showPass ? 'text' : 'password'} placeholder="Password" />
+                    <Form.Group className="mb-0 inputIconBox" controlId="formBasicPassword" >
+                        <input className='inputNav' onChange={(e) => setPassword(e.target.value)} type={showPass ? 'text' : 'password'} placeholder="Password" />
+                        <span style={{ top: '34%' }} className='showPassBtn ' onClick={HanldeshowPass}>
+                            {showPass ? <i className="fa-solid fa-eye"></i> : <i className="fa-solid fa-eye-slash"></i>}
+                        </span>
                     </Form.Group>
 
-                    <span style={{ top: '34%' }} className='showPassBtn ' onClick={HanldeshowPass}>
-                        {showPass ? <i className="fa-solid fa-eye"></i> : <i className="fa-solid fa-eye-slash"></i>}
-                    </span>
-                   {error && <p className='text-danger mb-0 mt-0' style={{fontSize: '12px'}}>Invalid Email/Password</p>} 
+                    {error && <p className='text-danger mb-0 mt-0' style={{ fontSize: '12px' }}>Invalid Email/Password</p>}
 
                     <Button className='loginBtn mt-3' variant="primary" type="submit">
                         Login

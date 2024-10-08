@@ -55,7 +55,7 @@ const Home = () => {
 
                 {loader && <Loader />}
                 {blog.map((element) => (
-                    <Card key={element.id} link={`/blog/view/${element.id}`} {...element.data()} />
+                    <Card key={element.id} link={`/blog/view/${element.id}`} id={element.id} {...element.data()} />
                 ))}
 
             </div>

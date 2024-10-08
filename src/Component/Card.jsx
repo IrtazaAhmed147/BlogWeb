@@ -15,16 +15,30 @@ const Card = (props) => {
   const [title, setTitle] = useState(null)
   const [id, setId] = useState(null)
   const [showModal, setShowModal] = useState(false);
+  const [views, setViews] = useState(0)
 
 
   useEffect(() => {
     fireBase.imageUrl(props.image).then((url) => setUrl(url)).catch(() => setUrl(null))
-    // console.log(id)
-    // console.log(title)
-  }, [fireBase, props.image])
+
+
+    fireBase.getViews(props.id)
+      .then((count) => setViews(count))
+      .catch(() => setViews(0));
+
+  }, [fireBase, props.image, props.id])
 
   const handleView = () => {
     navigate(props.link)
+    console.log(props.id)
+    const currentUserId = fireBase.myUser?.uid;
+    console.log(currentUserId)
+    if (currentUserId !== props.userId) {
+      const newViewsCount = views + 1;
+      setViews(newViewsCount)
+      fireBase.updateViews(props.id, newViewsCount).then(() => console.log("count", newViewsCount)).catch((err) => console.log(err));
+    }
+
   }
 
 
@@ -52,23 +66,29 @@ const Card = (props) => {
 
   return (
     <div className='cardBox' >
+
       <div className='d-flex'>
         <img className='profile' src={profileDef} alt="" />
         <span>{props.userName.charAt(0).toUpperCase() + props.userName.slice(1).toLowerCase()}</span>
       </div>
+
       <div>
         <img height='150px' width='100%' src={url ? url : defaultImg} alt="" />
       </div>
+
       <div>
+
         <h3>{props.title.charAt(0).toUpperCase() + props.title.slice(1).toLowerCase()}</h3>
         <p style={{ fontSize: "13px" }}>{props.content.slice(0, 150)}...</p>
-        <div className='d-flex justify-content-between'>
-          <div style={{ fontSize: "12px" }}>
 
+        <div className='d-flex justify-content-between'>
+
+          <div style={{ fontSize: "12px" }}>
             <span>Created At: {props.createdDate}</span> <br />
-            <span>Views 0</span>
+            <span>Views {views}</span>
           </div>
-          <div >
+
+          <div>
 
             <button className='viewBtn me-1' onClick={handleView}>View</button>
 

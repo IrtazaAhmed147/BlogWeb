@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useFirebase } from '../Context/Firebase'
 import { useParams } from 'react-router-dom'
 import Loader from './Loader'
+import './Component.css'
 
 const Detail = () => {
 
@@ -48,23 +49,24 @@ const Detail = () => {
     return (
         <div className='detail'>
 
-            <h1 style={{marginBottom: '60px'}}> {data.userName}</h1>
+           
             <div >
-                <img width='100%' height='500px' className='mb-2' src={url} alt="" />
+                <img  className='mb-2 detailImage' src={url} alt="" />
             </div>
 
             <h1 style={{ fontSize: "4rem" }}>
                 {data.title.charAt(0).toUpperCase() + data.title.slice(1).toLowerCase()}
             </h1>
             <p>{data.content}</p>
-            <p>Author: {data.author.charAt(0).toUpperCase() + data.author.slice(1).toLowerCase()}</p>
-            {(data.firstUrl || data.secUrl) && <h3>Links for Reference</h3>}
+            <p className='mb-0'>Author: {data.author.charAt(0).toUpperCase() + data.author.slice(1).toLowerCase()}</p>
+            {(data.firstUrl || data.secUrl) && <h3>Links</h3>}
             {/* <span ></span> */}
             <a rel='noreferrer' target='_blank' href={data.firstUrl}>{data.firstUrl}</a> <br />
             <a rel='noreferrer' target='_blank' href={data.secUrl}>{data.secUrl}</a>
 
             <p className='mb-0'>Username: {data.userName.charAt(0).toUpperCase() + data.userName.slice(1).toLowerCase()}</p>
-            {/* <p className='mb-0'>Email: {data.userEmail}</p> */}
+            <p className='mb-0'>Created At: {data.createdDate}</p>
+            <p>Views: {data.views}</p>
 
 
         </div>

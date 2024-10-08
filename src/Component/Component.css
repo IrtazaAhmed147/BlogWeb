@@ -1,3 +1,30 @@
+/* Navbar */
+
+.navBar{
+    height: 60px;
+    align-items: center;
+}
+
+.navUl{
+    list-style: none;
+    gap: 10px;
+}
+
+.NavCloseBtn{
+    border: none;
+    background-color: white;
+}
+.NavBtn{
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px 12px;
+    margin-right: 10px;
+    background-color: #002480;
+}
+.fontNav{
+    gap: 30px;
+}
 .form {
     width: 90%;
     margin: 30px auto;
@@ -84,6 +111,10 @@ circle {
     margin: 20px auto;
     width: 90%;
 }
+.detailImage{
+    height: 500px;
+    width: 80%;
+}
 
 
 /* footer */
@@ -107,3 +138,31 @@ footer{
     min-height: 400px;
     justify-content: center;
 }
+.profImg{
+    width: 20%;
+}
+.profbox h1{
+    font-size: 2rem;
+}
+@media screen and (max-width: 500px) {
+    .detailImage{
+        height: 235px;
+        width: 80%;
+    }
+    .profbox h1{
+        font-size: 1rem;
+    }
+    .fontNav{
+        font-size: 14px;
+        
+        gap: 6px;
+    }
+    .NavBtn{
+        padding: 3px 8px;
+    }
+    .navUl{
+        margin-left: 8px;
+        gap: 6px;
+    }
+   
+  }

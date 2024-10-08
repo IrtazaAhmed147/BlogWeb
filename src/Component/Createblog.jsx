@@ -37,41 +37,81 @@ const Createblog = () => {
 
     const handleSubmit = async (e) => {
         // If coverPic is not a File object, you need to handle the image upload differently.
-        e.preventDefault()
-        setLoader(true)
+        // e.preventDefault()
+        // if (loader) return
+        // setLoader(true)
 
 
-        if (!content.trim()) {
-            setDetailErr(true)
-            setLoader(false)
-        } else if (!author.trim()) {
-            setAuthor('Anonymous')
-            setDetailErr(false)
-            setLoader(false)
-        } else if (!coverPic) {
-            setDetailErr(false)
-            setLoader(true)
+        // if (!content.trim()) {
+        //     setDetailErr(true)
+        //     setLoader(false)
+        // } else{
 
-            setTitle(title.charAt(0).toUpperCase() + title.slice(1).toLowerCase())
+        // } if (!author.trim()) {
+        //     setAuthor('Unknown')
+        //     setDetailErr(false)
+        //     setLoader(false)
+        // } else if (!coverPic) {
+        //     setDetailErr(false)
+        //     setLoader(true)
 
-            const response = await fetch(defaultImg);
-            console.log(response)
-            const blob = await response.blob();
-            console.log(blob)
-            const file = new File([blob], 'default.png', { type: 'image/png' });
-            console.log(file)
-            await fireBase.createBlog(title, author, content, file, firstUrl, secUrl, createdDate).then(() => {
-                alert('Blog Created')
-                setLoader(false)
-            });
-        } else {
-            setDetailErr(false)
-            setLoader(true)
-            await fireBase.createBlog(title, author, content, coverPic, firstUrl, secUrl, createdDate).then(() => {
-                alert('Blog Created')
-                setLoader(false)
-            });
+        //     setTitle(title.charAt(0).toUpperCase() + title.slice(1).toLowerCase())
 
+        //     const response = await fetch(defaultImg);
+        //     console.log(response)
+        //     const blob = await response.blob();
+        //     console.log(blob)
+        //     const file = new File([blob], 'default.png', { type: 'image/png' });
+        //     console.log(file)
+        //     await fireBase.createBlog(title, author, content, file, firstUrl, secUrl, createdDate).then(() => {
+        //         alert('Blog Created')
+        //         setLoader(false)
+        //     });
+        // } else {
+        //     setDetailErr(false)
+        //     setLoader(true)
+        //     await fireBase.createBlog(title, author, content, coverPic, firstUrl, secUrl, createdDate).then(() => {
+        //         alert('Blog Created')
+        //         setLoader(false)
+        //     });
+
+        // }
+
+
+
+        e.preventDefault();
+
+        // Start the loader
+        setLoader(true);
+
+        try {
+            if (!content.trim()) {
+                setDetailErr(true);
+                setLoader(false);
+            } else {
+                // Set default author if not provided
+                if (!author.trim()) {
+                    setAuthor('Unknown');
+                }
+
+                // Handle cover pic
+                let coverImage = coverPic;
+                if (!coverImage) {
+                    // Fetch default image if no cover pic provided
+                    const response = await fetch(defaultImg);
+                    const blob = await response.blob();
+                    coverImage = new File([blob], 'default.png', { type: 'image/png' });
+                }
+
+                // Call Firebase function to create blog
+                await fireBase.createBlog(title, author, content, coverImage, firstUrl, secUrl, createdDate);
+                alert('Blog Created');
+            }
+        } catch (error) {
+            console.error('Error creating blog:', error);
+        } finally {
+            // Reset loader and any other state
+            setLoader(false);
         }
 
 
@@ -101,7 +141,7 @@ const Createblog = () => {
 
                     <Form.Group className="mb-0" >
                         <Form.Label>Add Content</Form.Label>
-                        <textarea disabled={loader} rows='10' onChange={(e) => setContent(e.target.value)} className='textArea'></textarea>
+                        <textarea  disabled={loader} rows='10' onChange={(e) => setContent(e.target.value)} className='textArea'></textarea>
                     </Form.Group>
                     {detailErr && <p className='text-danger '>This field is required</p>}
                     <Form.Group className="mb-3 mt-3" >
@@ -117,11 +157,11 @@ const Createblog = () => {
 
                     </Form.Group>
 
-                    
+
 
 
                     <Button variant="success" type="submit">
-                       {loader ? 'creating...': 'Create Blog'} 
+                        {loader ? 'creating...' : 'Create Blog'}
                     </Button>
                 </Form>
 
