@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+
+.Main{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

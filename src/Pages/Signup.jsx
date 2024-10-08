@@ -25,17 +25,17 @@ const Signup = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(password.length)
-
+        
         if(!userName.trim()) {
             setUserNameError(true)
         }
         
         else if ( password.length < 6 ) {
-
+            
             setPasswordError(true)
         } else {
             setEmailError(false)
+            setUserName(userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase())
 
             fireBase.createUser(email, password, userName).then(() => setEmailError(false)).catch((error) => { 
                 setEmailError(true) 

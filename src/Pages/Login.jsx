@@ -14,6 +14,7 @@ const Login = () => {
     const [showPass, setShowPass] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [error, setError] = useState(false)
 
     useEffect(() => {
         if (fireBase.isLoggedIn) {
@@ -23,7 +24,7 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        fireBase.loginUser(email, password)
+        fireBase.loginUser(email, password).then(()=> setError(false)).catch(()=> setError(true))
     }
 
     const HanldeshowPass = () => {
@@ -39,16 +40,18 @@ const Login = () => {
                         <Form.Control style={{ fontSize: "14px" }} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Enter Email" />
 
                     </Form.Group>
-                   
 
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
+
+                    <Form.Group className="mb-0" controlId="formBasicPassword">
                         <Form.Control style={{ fontSize: "14px" }} onChange={(e) => setPassword(e.target.value)} type={showPass ? 'text' : 'password'} placeholder="Password" />
                     </Form.Group>
-                    <span style={{top: '34%'}} className='showPassBtn' onClick={HanldeshowPass}>
+
+                    <span style={{ top: '34%' }} className='showPassBtn ' onClick={HanldeshowPass}>
                         {showPass ? <i className="fa-solid fa-eye"></i> : <i className="fa-solid fa-eye-slash"></i>}
                     </span>
+                   {error && <p className='text-danger mb-0 mt-0' style={{fontSize: '12px'}}>Invalid Email/Password</p>} 
 
-                    <Button className='loginBtn' variant="primary" type="submit">
+                    <Button className='loginBtn mt-3' variant="primary" type="submit">
                         Login
                     </Button>
 

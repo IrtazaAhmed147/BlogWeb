@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import React, { useContext, createContext, useState, useEffect } from "react";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updateProfile, signOut } from "firebase/auth";
-import { getFirestore, collection, addDoc, getDocs, doc, getDoc, query, where } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, doc, getDoc, query, where, deleteDoc } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 const firebaseConfig = {
@@ -36,19 +36,20 @@ export const Dataprovider = (props) => {
 
     // Create user
     const createUser = async (email, password, displayName) => {
-       
-            const userCredential = await createUserWithEmailAndPassword(fireBaseAuth, email, password);
-            const user = userCredential.user
 
-            await updateProfile(user, { displayName });
-           
-            console.log(user)
-        
+        const userCredential = await createUserWithEmailAndPassword(fireBaseAuth, email, password);
+        const user = userCredential.user
+
+        await updateProfile(user, { displayName });
+
+        console.log(user)
+
     }
 
     // Login user
-    const loginUser = (email, password) => {
-        signInWithEmailAndPassword(fireBaseAuth, email, password).then(() => alert('user logged in')).catch((error) => console.log(error))
+    const loginUser = async (email, password) => {
+      const res = await  signInWithEmailAndPassword(fireBaseAuth, email, password)
+      return res
     }
 
     useEffect(() => {
@@ -121,6 +122,14 @@ export const Dataprovider = (props) => {
         return res
     }
 
+    // delete post
+
+    const deletePost = async (id) => {
+        const delRef = doc(fireStore, "Blog", id)
+        const res = await deleteDoc(delRef)
+        return res
+    }
+
 
     return (
         <Datacontext.Provider value={{
@@ -134,7 +143,8 @@ export const Dataprovider = (props) => {
             imageUrl,
             signOutUser,
             getBlogById,
-            fetchMyBlogs
+            fetchMyBlogs,
+            deletePost,
         }}>
             {props.children}
         </Datacontext.Provider>
