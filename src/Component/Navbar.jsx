@@ -28,16 +28,14 @@ const NavBar = () => {
     const handleSignin = () => {
         navigate('/login')
     }
-    // const handleSignup = () => {
-    //     navigate('/signup')
-    // }
+   
     return (
         <div>
 
 
             <nav  className="d-flex navBar justify-content-between">
                 <div  className='ms-3 fontNav d-flex justify-content-between align-items-center'>
-                    <Link style={{fontWeight: '600'}} className="navbar-brand" to="/">InspireZone</Link>
+                    <Link style={{fontWeight: '600'}} className="navbar-brand" to="/">BlogVerse</Link>
                     
                     <div  className='d-flex align-items-center ' >
                         <ul  className="p-0 d-flex navUl mb-0">
@@ -59,22 +57,17 @@ const NavBar = () => {
                     </div>
                 </div>
                         {isLoggedIn && <button style={{backgroundColor: '#d70000'}} onClick={signOut}  className='NavBtn'>
-                            Signout
+                            Sign Out
                         </button>}
                         {!isLoggedIn && <button  className='NavBtn' onClick={handleSignin}>
-                            Signin
+                            Sign In
                         </button>}
-                        {/* {!isLoggedIn && <button  className='NavBtn'  onClick={handleSignup} >
-                            Signup
-                        </button>} */}
+                        
             </nav>
 
 
 
-            {/* <NavLink style={{ textDecoration: "none", color: "black" }} to="/">Home</NavLink>
-                        <NavLink style={{ textDecoration: "none", color: "black" }} to="/createblog">Create Blog</NavLink>
-                        <NavLink style={{ textDecoration: "none", color: "black" }} to="/profile">Profile</NavLink> */}
-
+            
 
 
 

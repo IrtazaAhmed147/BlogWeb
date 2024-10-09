@@ -42,7 +42,7 @@ export const Dataprovider = (props) => {
 
         await updateProfile(user, { displayName });
 
-        console.log(user)
+        
 
     }
 
@@ -161,7 +161,6 @@ export const Dataprovider = (props) => {
             isLoggedIn,
             createBlog,
             getBlog,
-            // updateUser,
             imageUrl,
             signOutUser,
             getBlogById,

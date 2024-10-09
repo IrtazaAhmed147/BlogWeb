@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
+import './Component.css'
+import { useNavigate } from 'react-router-dom';
+import { useFirebase } from '../Context/Firebase';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import './Component.css'
-import { useFirebase } from '../Context/Firebase';
-// import { useNavigate } from 'react-router-dom';
-// import default from '../' 
-// import default from 
 import defaultImg from '../image/default.png'
+
+import Loader from './Loader';
 
 const Createblog = () => {
 
@@ -21,6 +21,10 @@ const Createblog = () => {
 
 
     const fireBase = useFirebase()
+    const navigate = useNavigate()
+
+
+
 
 
 
@@ -37,45 +41,7 @@ const Createblog = () => {
 
     const handleSubmit = async (e) => {
         // If coverPic is not a File object, you need to handle the image upload differently.
-        // e.preventDefault()
-        // if (loader) return
-        // setLoader(true)
 
-
-        // if (!content.trim()) {
-        //     setDetailErr(true)
-        //     setLoader(false)
-        // } else{
-
-        // } if (!author.trim()) {
-        //     setAuthor('Unknown')
-        //     setDetailErr(false)
-        //     setLoader(false)
-        // } else if (!coverPic) {
-        //     setDetailErr(false)
-        //     setLoader(true)
-
-        //     setTitle(title.charAt(0).toUpperCase() + title.slice(1).toLowerCase())
-
-        //     const response = await fetch(defaultImg);
-        //     console.log(response)
-        //     const blob = await response.blob();
-        //     console.log(blob)
-        //     const file = new File([blob], 'default.png', { type: 'image/png' });
-        //     console.log(file)
-        //     await fireBase.createBlog(title, author, content, file, firstUrl, secUrl, createdDate).then(() => {
-        //         alert('Blog Created')
-        //         setLoader(false)
-        //     });
-        // } else {
-        //     setDetailErr(false)
-        //     setLoader(true)
-        //     await fireBase.createBlog(title, author, content, coverPic, firstUrl, secUrl, createdDate).then(() => {
-        //         alert('Blog Created')
-        //         setLoader(false)
-        //     });
-
-        // }
 
 
 
@@ -88,15 +54,15 @@ const Createblog = () => {
             if (!content.trim()) {
                 setDetailErr(true);
                 setLoader(false);
-            } else {
-                // Set default author if not provided
-                if (!author.trim()) {
-                    setAuthor('Unknown');
-                }
+            }
+            else {
+
+
 
                 // Handle cover pic
                 let coverImage = coverPic;
                 if (!coverImage) {
+
                     // Fetch default image if no cover pic provided
                     const response = await fetch(defaultImg);
                     const blob = await response.blob();
@@ -106,6 +72,8 @@ const Createblog = () => {
                 // Call Firebase function to create blog
                 await fireBase.createBlog(title, author, content, coverImage, firstUrl, secUrl, createdDate);
                 alert('Blog Created');
+                navigate('/')
+
             }
         } catch (error) {
             console.error('Error creating blog:', error);
@@ -130,43 +98,51 @@ const Createblog = () => {
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-0" >
                         <Form.Label className='mb-0' >Title</Form.Label>
-                        <Form.Control disabled={loader} required className='input' onChange={(e) => setTitle(e.target.value)} type="text" placeholder="Enter Title" />
+                        <Form.Control required className='input' onChange={(e) => setTitle(e.target.value)} type="text" placeholder="Enter Title" />
 
                     </Form.Group>
                     <Form.Group className="mb-2 mt-2" >
                         <Form.Label className='mb-0'>Author Name (optional)</Form.Label>
-                        <Form.Control disabled={loader} className='input' onChange={(e) => setAuthor(e.target.value)} type="text" placeholder="Author Name" />
+                        <Form.Control className='input' onChange={(e) => setAuthor(e.target.value)} type="text" placeholder="Author Name" />
 
                     </Form.Group>
 
                     <Form.Group className="mb-0" >
                         <Form.Label>Add Content</Form.Label>
-                        <textarea  disabled={loader} rows='10' onChange={(e) => setContent(e.target.value)} className='textArea'></textarea>
+                        <textarea rows='10' onChange={(e) => setContent(e.target.value)} className='textArea'></textarea>
                     </Form.Group>
+
                     {detailErr && <p className='text-danger '>This field is required</p>}
+
                     <Form.Group className="mb-3 mt-3" >
                         <Form.Label>Cover Pic (optional)</Form.Label>
-                        <Form.Control disabled={loader} className='input' onChange={(e) => setCoverPic(e.target.files[0])} type="file" />
+                        <Form.Control className='input' onChange={(e) => setCoverPic(e.target.files[0])} type="file" />
 
                     </Form.Group>
 
                     <Form.Group className="mb-3" >
-                        <Form.Label>Enter url for reference (optional)</Form.Label>
-                        <Form.Control disabled={loader} className='input' onChange={(e) => setFirstUrl(e.target.value)} type="url" placeholder="url" />
-                        <Form.Control disabled={loader} className='input' onChange={(e) => setSecUrl(e.target.value)} type="url" />
+                        <Form.Label>Links (optional)</Form.Label>
+                        <Form.Control className='input' onChange={(e) => setFirstUrl(e.target.value)} type="url" placeholder="url" />
+                        <Form.Control className='input' onChange={(e) => setSecUrl(e.target.value)} type="url" />
 
                     </Form.Group>
-
-
-
 
                     <Button variant="success" type="submit">
                         {loader ? 'creating...' : 'Create Blog'}
                     </Button>
+
                 </Form>
 
             </div>
+
+            {loader && <div className='popUp'>
+                <Loader />
+            </div>}
+
         </div>
+
+
+
     )
 }
 

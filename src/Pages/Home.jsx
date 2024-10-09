@@ -13,14 +13,7 @@ const Home = () => {
     const [loader, setLoader] = useState(true)
 
 
-    // useEffect(() => {
-    //     if (fireBase.isLoggedIn) {
-    //         navigate('/')
-    //         setLoader(false)
-    //     } else {
-    //         setLoader(true)
-    //     }
-    // }, [fireBase, navigate])
+    
 
     useEffect(() => {
 
@@ -31,7 +24,6 @@ const Home = () => {
 
     }, [fireBase])
 
-    // console.log(blog)
 
     return (
         <>
@@ -43,7 +35,7 @@ const Home = () => {
                 </div>
                 <div className='color'></div>
                 <div className='content'>
-                    <h1 >Blog Website</h1>
+                    <h1 >BlogVerse</h1>
                     <p>Where ideas come to life and stories unfold. Explore, engage, and embrace the art of blogging!</p>
                 </div>
             </div>

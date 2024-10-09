@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import defPerson from '../image/defPerson.png'
 import { useFirebase } from '../Context/Firebase'
 import Card from './Card'
-// import { useNavigate } from 'react-router-dom'
-
+import Loader from './Loader'
 
 const Profile = () => {
 
@@ -12,31 +11,25 @@ const Profile = () => {
 
   const fireBase = useFirebase()
   const [blog, setBlog] = useState([])
-  // const navigate = useNavigate()
+  const [loader, setLoader] = useState(true)
 
-
-  // useEffect(() => {
-  //   if (fireBase.isLoggedIn) {
-  //     navigate('/profile')
-  //   } else {
-  //     navigate('/login')
-  //   }
-
-  // }, [fireBase, navigate])
 
   useEffect(() => {
     if (fireBase.isLoggedIn) {
-      fireBase.fetchMyBlogs(fireBase.myUser.uid)?.then((blog) => setBlog(blog.docs))
+      fireBase.fetchMyBlogs(fireBase.myUser.uid)?.then((blog) => {
+        setLoader(false)
+        setBlog(blog.docs)
 
+      })
     }
   }, [fireBase])
 
   if (!fireBase.isLoggedIn) return (
     <>
-    <div>
+      <div>
 
-    <h1 >Please Login</h1>
-    </div>
+        <h1 >Please Login</h1>
+      </div>
     </>
   )
 
@@ -58,12 +51,14 @@ const Profile = () => {
       </div>
       <div style={{ padding: "20px" }} className='profileCardBox'>
 
+      {loader && <Loader />}
         {blog.map((element) => (
           <Card key={element.id} {...element.data()} id={element.id} link={`/blog/view/${element.id}`} />
         ))}
       </div>
 
 
+     
 
     </div>
   )

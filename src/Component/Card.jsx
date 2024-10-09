@@ -4,7 +4,7 @@ import { useFirebase } from '../Context/Firebase'
 import defaultImg from '../image/default.png'
 import profileDef from '../image/profile.png'
 import { useLocation, useNavigate } from 'react-router-dom'
-
+import Loader from './Loader'
 
 const Card = (props) => {
 
@@ -16,6 +16,7 @@ const Card = (props) => {
   const [id, setId] = useState(null)
   const [showModal, setShowModal] = useState(false);
   const [views, setViews] = useState(0)
+  const [loader, setLoader] = useState(false)
 
 
   useEffect(() => {
@@ -30,9 +31,9 @@ const Card = (props) => {
 
   const handleView = () => {
     navigate(props.link)
-    console.log(props.id)
+
     const currentUserId = fireBase.myUser?.uid;
-    console.log(currentUserId)
+
     if (currentUserId !== props.userId) {
       const newViewsCount = views + 1;
       setViews(newViewsCount)
@@ -50,14 +51,21 @@ const Card = (props) => {
 
 
   const handleDel = () => {
-    console.log('delte btn')
 
+    setLoader(true)
 
     fireBase.deletePost(id).then(() => {
+
       alert("post Deleted")
       window.location.reload();
-    }).catch((err) => console.log(err));
+
+
+    }).catch((err) => console.log(err))
+      .finally(() => {
+        setLoader(false)
+      })
     setShowModal(false);
+
   }
 
 
@@ -65,68 +73,77 @@ const Card = (props) => {
 
 
   return (
-    <div className='cardBox' >
+    <>
+      <div className='cardBox' >
 
-      <div className='d-flex'>
-        <img className='profile' src={profileDef} alt="" />
-        <span>{props.userName.charAt(0).toUpperCase() + props.userName.slice(1).toLowerCase()}</span>
-      </div>
+        <div className='d-flex'>
+          <img className='profile' src={profileDef} alt="" />
+          <span>{(props.userName.charAt(0).toUpperCase() + props.userName.slice(1).toLowerCase())}</span>
+        </div>
 
-      <div>
-        <img height='150px' width='100%' src={url ? url : defaultImg} alt="" />
-      </div>
+        <div>
+          <img height='150px' width='100%' src={url ? url : defaultImg} alt="" />
+        </div>
 
-      <div>
+        <div>
 
-        <h3>{props.title.charAt(0).toUpperCase() + props.title.slice(1).toLowerCase()}</h3>
-        <p style={{ fontSize: "13px" }}>{props.content.slice(0, 150)}...</p>
+          <h3>{(props.title.charAt(0).toUpperCase() + props.title.slice(1).toLowerCase()).slice(0, 30)}</h3>
+          <p style={{ fontSize: "13px" }}>{props.content.slice(0, 150)}...</p>
 
-        <div className='d-flex justify-content-between'>
+          <div className='d-flex justify-content-between'>
 
-          <div style={{ fontSize: "12px" }}>
-            <span>Created At: {props.createdDate}</span> <br />
-            <span>Views {views}</span>
-          </div>
+            <div style={{ fontSize: "12px" }}>
+              <span>Created At: {props.createdDate}</span> <br />
+              <span>Views {views}</span>
+            </div>
 
-          <div>
+            <div>
 
-            <button className='viewBtn me-1' onClick={handleView}>View</button>
+              <button className='viewBtn me-1' onClick={handleView}>View</button>
 
-            {location.pathname === '/profile' && <button type="button" onClick={() => handleDelState(props.id, props.title)} style={{ backgroundColor: '#d90000', padding: '4px 10px' }} className='viewBtn' > <i className="fa-solid fa-trash"></i> </button>}
+              {location.pathname === '/profile' && <button type="button" onClick={() => handleDelState(props.id, props.title)} style={{ backgroundColor: '#d90000', padding: '4px 10px' }} className='viewBtn' > <i className="fa-solid fa-trash"></i> </button>}
 
-            {/* modal */}
+              {/* modal */}
 
-            {showModal && (
-              <div className="modal show" style={{ display: 'block' }} >
-                <div className="modal-dialog" >
-                  <div className="modal-content">
-                    <div className="modal-header" style={{ border: 'none' }}>
-                      <h1 className="modal-title">{title}</h1>
-                      <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
-                    </div>
-                    <div className="modal-body">
-                      Do you want to delete this post?
-                    </div>
-                    <div className="modal-footer" style={{ border: 'none' }}>
-                      <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Close</button>
-                      <button type="button" onClick={handleDel} style={{ backgroundColor: '#d90000', padding: '7px 10px' }} className='viewBtn'>
-                        <i className="fa-solid fa-trash"></i>
-                      </button>
+              {showModal && (
+                <div className="modal show" style={{ display: 'block' }} >
+                  <div className="modal-dialog" >
+                    <div className="modal-content">
+                      <div className="modal-header" style={{ border: 'none' }}>
+                        <h1 className="modal-title">{title.slice(0, 30)}</h1>
+                        <button type="button" className="btn-close" style={{alignSelf: 'self-start'}} onClick={() => setShowModal(false)}></button>
+                      </div>
+                      <div className="modal-body">
+                        Do you want to delete this post?
+                      </div>
+                      <div className="modal-footer" style={{ border: 'none' }}>
+                        <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Close</button>
+                        <button type="button" onClick={handleDel} style={{ backgroundColor: '#d90000', padding: '7px 10px' }} className='viewBtn'>
+                          <i className="fa-solid fa-trash"></i>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
 
 
 
 
+
+
+            </div>
           </div>
         </div>
-      </div>
 
-    </div>
+      </div>
+      {loader && <div className='popUp'  style={{opacity: '0.6'}}>
+        <Loader />
+      </div>}
+    </>
+
+
   )
 }
 

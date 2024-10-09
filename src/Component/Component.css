@@ -1,20 +1,21 @@
 /* Navbar */
 
-.navBar{
+.navBar {
     height: 60px;
     align-items: center;
 }
 
-.navUl{
+.navUl {
     list-style: none;
     gap: 10px;
 }
 
-.NavCloseBtn{
+.NavCloseBtn {
     border: none;
     background-color: white;
 }
-.NavBtn{
+
+.NavBtn {
     border: none;
     color: #fff;
     border-radius: 5px;
@@ -22,9 +23,11 @@
     margin-right: 10px;
     background-color: #002480;
 }
-.fontNav{
+
+.fontNav {
     gap: 30px;
 }
+
 .form {
     width: 90%;
     margin: 30px auto;
@@ -46,7 +49,8 @@
     /* border: 2px solid black; */
     /* height: 300px; */
 }
-.profile{
+
+.profile {
     height: 20px;
     width: 20px;
     border-radius: 50%;
@@ -107,62 +111,96 @@ circle {
 
 /* detail */
 
-.detail{
+.detail {
     margin: 20px auto;
     width: 90%;
 }
-.detailImage{
+
+.detailImage {
     height: 500px;
     width: 80%;
 }
 
+.pre {
+    white-space: pre-wrap;
+    /* Allows wrapping but keeps whitespace */
+    overflow-wrap: break-word;
+}
+.detHead{
+    font-size: 4rem;
+}
 
 /* footer */
 
-footer{
+footer {
     /* background-color: blue; */
     height: 50px;
     color: white;
     display: flex;
     align-items: center;
     padding-left: 20px;
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(16,21,162,1) 35%, rgba(0,212,255,1) 100%);
+    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(16, 21, 162, 1) 35%, rgba(0, 212, 255, 1) 100%);
 }
 
 /* profile */
 
-.profileCardBox{
+.profileCardBox {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     min-height: 400px;
     justify-content: center;
 }
-.profImg{
+
+.profImg {
     width: 20%;
 }
-.profbox h1{
+
+.profbox h1 {
     font-size: 2rem;
 }
+
+/* create blog */
+
+.popUp{
+    position: absolute;
+    background-color: black;
+    opacity: 0.8;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 @media screen and (max-width: 500px) {
-    .detailImage{
+    .detailImage {
         height: 235px;
         width: 80%;
     }
-    .profbox h1{
+
+    .profbox h1 {
         font-size: 1rem;
     }
-    .fontNav{
+
+    .fontNav {
         font-size: 14px;
-        
+
         gap: 6px;
     }
-    .NavBtn{
+
+    .NavBtn {
         padding: 3px 8px;
     }
-    .navUl{
+
+    .navUl {
         margin-left: 8px;
         gap: 6px;
     }
-   
-  }
+    .detHead{
+        font-size: 1.5rem;
+    }
+
+}

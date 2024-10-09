@@ -11,27 +11,31 @@ import Profile from './Component/Profile';
 import Detail from './Component/Detail';
 import Footer from './Component/Footer';
 
-
 function App() {
   return (
     <div className='Main'>
+
       <div>
 
-      <NavBar />
-      <main>
+        <NavBar />
 
-      <Routes>
+        <main>
 
-        <Route path='/' element={<Home />} />
-        <Route path='/createblog' element={<Createblog />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Signup />} />
-        <Route path='/blog/view/:blogId' element={<Detail />} />
-      </Routes>
-      </main>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/createblog' element={<Createblog />} />
+            <Route path='/profile' element={<Profile />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
+            <Route path='/blog/view/:blogId' element={<Detail />} />
+          </Routes>
+
+        </main>
+
       </div>
-      <Footer/>
+
+      <Footer />
+
     </div>
   );
 }
