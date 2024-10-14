@@ -32,7 +32,7 @@ export const Dataprovider = (props) => {
 
 
     const [myUser, setMyUser] = useState(null)
-
+    const [editTask, setEditTask] = useState(null)
 
     // Create user
     const createUser = async (email, password, displayName) => {
@@ -74,7 +74,7 @@ export const Dataprovider = (props) => {
     // signout user
 
     const signOutUser = () => {
-        signOut(fireBaseAuth).then((value) => console.log('user is out'))
+        signOut(fireBaseAuth)
     }
 
     // making collection
@@ -131,11 +131,15 @@ export const Dataprovider = (props) => {
 
     // update views
 
-    const updateViews = async (id, views) => {
-        
+    const update = async (id, title, author, content, firstUrl, secUrl,) => {
+       
         const docRef = doc(fireStore, 'Blog', id)
         await updateDoc(docRef, {
-            views: Number(views)
+            title,
+            author,
+            content,
+            firstUrl,
+            secUrl,
         })
 
     }
@@ -166,8 +170,11 @@ export const Dataprovider = (props) => {
             getBlogById,
             fetchMyBlogs,
             deletePost,
-            updateViews,
+            update,
             getViews,
+            editTask,
+            setEditTask,
+        
         }}>
             {props.children}
         </Datacontext.Provider>

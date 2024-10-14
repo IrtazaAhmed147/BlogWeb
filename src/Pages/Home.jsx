@@ -13,16 +13,28 @@ const Home = () => {
     const [loader, setLoader] = useState(true)
 
 
-    
+
 
     useEffect(() => {
 
-        fireBase.getBlog().then((blog) => {
-            setBlog(blog.docs)
-            setLoader(false)
-        }).catch(() => console.log("blog is not"))
+        const fetchBlogs = async () => {
+            try {
+                const blogsData = await fireBase.getBlog(); // Assuming this returns a querySnapshot
+                const sortedBlogs = blogsData.docs.sort((latestDate, date) => {
+                    return new Date(date.data().createdDate) - new Date(latestDate.data().createdDate);
+                });
+                setBlog(sortedBlogs);
+            } catch (error) {
+                console.log("Error fetching blogs:", error);
+            } finally {
+                setLoader(false);
+            }
+        };
 
+        fetchBlogs();
     }, [fireBase])
+
+    console.log(blog.docs)
 
 
     return (
@@ -43,7 +55,7 @@ const Home = () => {
             <h1 className='ms-3 mt-3'>Blogs</h1>
 
 
-            <div style={{ padding: "20px" }} className='CardMain'>
+            <div className='CardMain'>
 
                 {loader && <Loader />}
                 {blog.map((element) => (

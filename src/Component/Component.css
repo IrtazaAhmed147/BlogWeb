@@ -3,6 +3,8 @@
 .navBar {
     height: 60px;
     align-items: center;
+    background-color: #00002e;
+    color: #fff;
 }
 
 .navUl {
@@ -46,8 +48,7 @@
 .cardBox {
     width: 300px;
     overflow: hidden;
-    /* border: 2px solid black; */
-    /* height: 300px; */
+   
 }
 
 .profile {
@@ -117,8 +118,8 @@ circle {
 }
 
 .detailImage {
-    height: 500px;
-    width: 80%;
+    height: 350px;
+    width: 800px;
 }
 
 .pre {
@@ -149,7 +150,8 @@ footer {
     flex-wrap: wrap;
     gap: 20px;
     min-height: 400px;
-    justify-content: center;
+    width: 93.5%;
+    margin: 30px auto;
 }
 
 .profImg {
@@ -178,7 +180,7 @@ footer {
 @media screen and (max-width: 500px) {
     .detailImage {
         height: 235px;
-        width: 80%;
+        width: 100%;
     }
 
     .profbox h1 {
@@ -200,7 +202,10 @@ footer {
         gap: 6px;
     }
     .detHead{
-        font-size: 1.5rem;
+        font-size: 2rem;
     }
-
+    .profileCardBox{
+        width: 100%;
+        justify-content: center;
+    }
 }

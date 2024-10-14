@@ -19,7 +19,6 @@ const Createblog = () => {
     const [loader, setLoader] = useState(false)
     const [detailErr, setDetailErr] = useState(false)
 
-
     const fireBase = useFirebase()
     const navigate = useNavigate()
 
@@ -127,8 +126,8 @@ const Createblog = () => {
 
                     </Form.Group>
 
-                    <Button variant="success" type="submit">
-                        {loader ? 'creating...' : 'Create Blog'}
+                    <Button variant="primary" type="submit">
+                        Create Blog
                     </Button>
 
                 </Form>

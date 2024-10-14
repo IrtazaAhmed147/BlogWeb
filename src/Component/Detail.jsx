@@ -19,7 +19,7 @@ const Detail = () => {
 
     }, [fireBase, param.blogId])
 
-    
+
 
     useEffect(() => {
         if (data) {
@@ -48,26 +48,26 @@ const Detail = () => {
     return (
         <div className='detail'>
 
-
+            <h1 className='detHead' >
+                {data.title.charAt(0).toUpperCase() + data.title.slice(1).toLowerCase()}
+            </h1>
+            <p style={{fontSize: '13px'}}>{data.createdDate} <span style={{ color: 'grey' }}> by </span> {data.userName.charAt(0).toUpperCase() + data.userName.slice(1).toLowerCase()}</p>
             <div >
                 <img className='mb-2 detailImage' src={url} alt="" />
             </div>
 
-            <h1 className='detHead' >
-                {data.title.charAt(0).toUpperCase() + data.title.slice(1).toLowerCase()}
-            </h1>
-            {/* <p></p> */}
+
+
             <pre className='pre'>{data.content}</pre>
+            {data.author.trim() && <p className='mb-3 '>Author: {data.author.charAt(0).toUpperCase() + data.author.slice(1).toLowerCase()}</p>}
 
             {(data.firstUrl || data.secUrl) && <h3>Links</h3>}
 
             <a rel='noreferrer' target='_blank' href={data.firstUrl}>{data.firstUrl}</a> <br />
             <a rel='noreferrer' target='_blank' href={data.secUrl}>{data.secUrl}</a>
 
-            {data.author.trim() && <p className='mb-0'>Author: {data.author.charAt(0).toUpperCase() + data.author.slice(1).toLowerCase()}</p>}
-            <p className='mb-0'>Username: {data.userName.charAt(0).toUpperCase() + data.userName.slice(1).toLowerCase()}</p>
-            <p className='mb-0'>Created At: {data.createdDate}</p>
-            <p>Views: {data.views}</p>
+
+
 
 
         </div>

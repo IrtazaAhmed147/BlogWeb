@@ -10,6 +10,7 @@ import Createblog from './Component/Createblog';
 import Profile from './Component/Profile';
 import Detail from './Component/Detail';
 import Footer from './Component/Footer';
+import Edit from './Component/Edit';
 
 function App() {
   return (
@@ -24,10 +25,12 @@ function App() {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/createblog' element={<Createblog />} />
+            <Route path='/editblog/:blogId' element={<Edit />} />
             <Route path='/profile' element={<Profile />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/blog/view/:blogId' element={<Detail />} />
+
           </Routes>
 
         </main>

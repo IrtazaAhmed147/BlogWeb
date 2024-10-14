@@ -1,11 +1,11 @@
-.MainLoginPage{
+.MainLoginPage {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
 
-.loginBox{
+.loginBox {
     width: 300px;
     height: 400px;
     background-color: white;
@@ -14,14 +14,16 @@
     position: relative;
 }
 
-.loginBtn{
+.loginBtn {
     width: 100%;
 }
-.registerline{
+
+.registerline {
     font-size: 13px;
     text-align: center;
 }
-.inputNav{
+
+.inputNav {
     outline: none;
     border-radius: 6px;
     padding-left: 10px;
@@ -30,14 +32,15 @@
     width: 100%;
 }
 
-.inputIconBox{
+.inputIconBox {
     display: flex;
     border: 1px solid #e4e3e3;
     border-radius: 6px;
     padding-right: 5px;
     height: 35px;
 }
-.showPassBtn{
+
+.showPassBtn {
     /* position: absolute; */
     top: 47%;
     right: 18px;
@@ -46,7 +49,8 @@
     display: flex;
     align-items: center;
 }
-.user{
+
+.user {
     position: absolute;
     right: 18px;
     top: 21%;
@@ -55,62 +59,80 @@
 
 /* home page */
 
-.poster{
+.poster {
     width: 100%;
-    height: 500px;
+    height: 380px;
     color: white;
     background-size: 100% 100%;
 }
-.posterBox{
+
+.posterBox {
     position: relative;
     display: flex;
-    width: 100%;
+    width: 93%;
     justify-content: center;
     align-items: center;
-    height: 500px;
+    height: 380px;
+    margin: 40px auto auto auto;
 }
-.color{
+
+.color {
     position: absolute;
     top: 0;
     background-color: black;
     width: 100%;
-    height: 500px;
+    height: 380px;
     opacity: 0.5;
-    
+
 }
-.content{
+
+.content {
     position: absolute;
     font-size: 17px;
     color: white;
     text-align: center;
     padding: 0px 10px;
 }
-.CardMain{
+
+.CardMain {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     min-height: 400px;
-    justify-content: center;
+    /* justify-content: center; */
+    width: 93.5%;
+    margin: 30px auto;
 }
 
-.content h1{
+.content h1 {
     font-size: 70px;
 }
 
 @media screen and (max-width: 500px) {
-    .poster{
+    .poster {
         height: 300px;
     }
-    .posterBox{
+
+    .posterBox {
         height: 300px;
     }
-    .color{
+
+    .color {
         height: 300px;
     }
-    .content h1{
+
+    .content h1 {
         font-size: 3rem;
     }
-    .content p{
+
+    .content p {
         font-size: 10px;
     }
-  }
+    .CardMain{
+        justify-content: center;
+        width: 100%;
+    }
+    .posterBox{
+        margin: 20px auto auto auto;
+    }
+}
