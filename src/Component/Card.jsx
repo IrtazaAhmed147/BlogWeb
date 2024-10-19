@@ -65,11 +65,11 @@ const Card = (props) => {
   }
 
   const handleEdit = (id) => {
-    console.log(id)
+    
     const edit = blog.find(task => task.id === id)
 
     fireBase.setEditTask(edit.data());
-    console.log("Editing task:", edit.data());
+    
     navigate(`/editblog/${id}`)
 
   }

@@ -4,6 +4,7 @@ import './Pages.css'
 import Button from 'react-bootstrap/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFirebase } from '../Context/Firebase';
+import Loader from '../Component/Loader';
 
 const Signup = () => {
     const [showPass, setShowPass] = useState(false)
@@ -13,6 +14,10 @@ const Signup = () => {
     const [emailError, setEmailError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
     const [userNameError, setUserNameError] = useState(false)
+    const [taken, setTaken] = useState(false)
+    
+    const [loader, setLoader] = useState(false)
+
 
     const navigate = useNavigate()
     const fireBase = useFirebase()
@@ -21,28 +26,73 @@ const Signup = () => {
         if (fireBase.isLoggedIn) {
             navigate('/')
         }
+ 
     }, [fireBase, navigate])
 
+   
+
+
+
+
     const handleSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
+
+        let valid = true;
 
         if (!userName.trim()) {
-            setUserNameError(true)
-        }
-
-        else if (password.length < 6) {
-
-            setPasswordError(true)
+            setUserNameError(true);
+            valid = false;
         } else {
-            setEmailError(false)
-            setUserName(userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase())
-
-            fireBase.createUser(email, password, userName).then(() => setEmailError(false)).catch((error) => {
-                setEmailError(true)
-                console.log(error)
-            })
+            setUserNameError(false);
         }
-    }
+
+        if (password.length < 6) {
+            setPasswordError(true);
+            valid = false;
+        } else {
+            setPasswordError(false);
+        }
+
+        if (!email) {
+            setEmailError(true);
+            valid = false;
+        } else {
+            setEmailError(false);
+        }
+
+        if (!valid) {
+            return;
+        }
+
+        setUserName(userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase());
+        fireBase.checkUser(userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase())
+            .then((user) => {
+                if (user.docs.length > 0) {
+                    setTaken(true);
+                } else {
+                    setLoader(true)
+                    setTaken(false);
+                    fireBase.createUser(email, password, userName)
+                        .then(() => {
+                            fireBase.userInfo(userName)
+                            setLoader(false)
+                        })
+                        .catch((error) => {
+                            setEmailError(true);
+                            setLoader(false)
+                            console.log("Error creating user:", error);
+                        });
+                }
+            })
+            .catch((error) => {
+                setLoader(false)
+                console.log("Error checking username:", error);
+            });
+    };
+
+
+
+
 
     const HanldeshowPass = () => {
         setShowPass((prev) => !prev)
@@ -63,7 +113,7 @@ const Signup = () => {
                         </span>
                     </Form.Group>
 
-                    {userNameError && <p className='text-danger   mt-0' style={{ fontSize: '12px' }}>Username required</p>}
+                    {(userNameError && <p className='text-danger   mt-0' style={{ fontSize: '12px' }}>Username required</p>) || (taken && <p className='text-danger   mt-0' style={{ fontSize: '12px' }}>Username already taken</p>)}
 
                     <Form.Group className=" mt-3 mb-3" controlId="formBasicEmail">
 
@@ -94,6 +144,9 @@ const Signup = () => {
                 </Form>
                 <p className='registerline mt-3'>Already have an Account? <Link to="/login">Login</Link></p>
             </div>
+            {loader && <div className='popUp'>
+                <Loader />
+            </div>}
         </div>
     )
 }

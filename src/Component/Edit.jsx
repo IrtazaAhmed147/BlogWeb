@@ -100,7 +100,7 @@ const Edit = () => {
 
 
 
-    if (!fireBase.isLoggedIn) return <h1>Please Login</h1>
+    if (!data) return <h1>Loading</h1>
 
     return (
         <div>

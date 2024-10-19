@@ -32,9 +32,18 @@ const Home = () => {
         };
 
         fetchBlogs();
+
+        // const getId = async ()=> {
+        //     const data = await fireBase.getUserInfo()
+        //     console.log(data.docs[1].data())
+        // }
+        // getId()
+
+       
+
+        // console.log(fireBase.userName)
     }, [fireBase])
 
-    console.log(blog.docs)
 
 
     return (

@@ -33,17 +33,34 @@ export const Dataprovider = (props) => {
 
     const [myUser, setMyUser] = useState(null)
     const [editTask, setEditTask] = useState(null)
-
+    
     // Create user
     const createUser = async (email, password, displayName) => {
-
-        const userCredential = await createUserWithEmailAndPassword(fireBaseAuth, email, password);
-        const user = userCredential.user
-
-        await updateProfile(user, { displayName });
-
         
+        const accountCreation = await createUserWithEmailAndPassword(fireBaseAuth, email, password);
+        const user = accountCreation.user
+        
+        await updateProfile(user, { displayName });
+        
+        
+        
+    }
+    const userInfo = async (userName)=> {
+        return await addDoc(collection(fireStore, 'Users'), {
+            userName
+        })
+    }
 
+    const getUserInfo = () => {
+        return getDocs(collection(fireStore, 'Users'))
+    }
+
+    const checkUser = async (userName) => {
+        const collectionRef = collection(fireStore, "Users")
+        const q = query(collectionRef, where('userName', '==', userName))
+        const res = await getDocs(q)
+        
+        return res
     }
 
     // Login user
@@ -174,6 +191,9 @@ export const Dataprovider = (props) => {
             getViews,
             editTask,
             setEditTask,
+            userInfo,
+            getUserInfo,
+            checkUser,
         
         }}>
             {props.children}

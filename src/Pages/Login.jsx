@@ -4,6 +4,7 @@ import './Pages.css'
 import Button from 'react-bootstrap/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFirebase } from '../Context/Firebase';
+import Loader from '../Component/Loader';
 
 
 const Login = () => {
@@ -16,6 +17,8 @@ const Login = () => {
     const [password, setPassword] = useState('')
     const [error, setError] = useState(false)
 
+    const [loader, setLoader] = useState(false)
+
     useEffect(() => {
         if (fireBase.isLoggedIn) {
             navigate('/')
@@ -24,7 +27,14 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        fireBase.loginUser(email, password).then(() => setError(false)).catch(() => setError(true))
+        setLoader(true)
+        fireBase.loginUser(email, password).then(() => {
+            setError(false)
+            setLoader(false)
+        }).catch(() => {
+            setError(true)
+            setLoader(false)
+        })
     }
 
     const HanldeshowPass = () => {
@@ -58,6 +68,9 @@ const Login = () => {
                 </Form>
                 <p className='registerline mt-3'>Don't have an Account? <Link to="/signup">Signup</Link></p>
             </div>
+            {loader && <div className='popUp'>
+                <Loader />
+            </div>}
         </div>
     )
 }
